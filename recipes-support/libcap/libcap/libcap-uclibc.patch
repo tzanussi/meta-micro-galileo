@@ -1,0 +1,14 @@
+--- libcap-2.24org/libcap/cap_file.c	2015-03-16 14:03:59.829545410 +0800
++++ libcap-2.24/libcap/cap_file.c	2015-03-16 14:07:18.013499003 +0800
+@@ -5,7 +5,11 @@
+  */
+ 
+ #include <sys/types.h>
++#ifdef __UCLIBC__
++#include <attr/xattr.h>
++#else
+ #include <sys/xattr.h>
++#endif
+ #include <byteswap.h>
+ #include <sys/stat.h>
+ #include <unistd.h>
