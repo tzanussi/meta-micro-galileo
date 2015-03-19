@@ -5,6 +5,8 @@ PR := "${PR}.1"
 #KBRANCH_galileo = "micro/galileo"
 #SRC_URI_galileo = "git:///home/trz/yocto/galileo-next/kernels/linux-yocto-micro-3.19.git;protocol=file;bareclone=1;branch=${KBRANCH},${KMETA},net-diet,lto,tinification,staging;name=machine,meta,net-diet,lto,tinification,staging"
 
+SRC_URI_galileo += "file://defconfig"
+
 #KBRANCH_minnowmax-64 = "micro/minnowmax"
 #SRC_URI_minnowmax-64 = "git:///home/trz/yocto/galileo-next/kernels/linux-yocto-micro-3.19.git;protocol=file;bareclone=1;branch=${KBRANCH},${KMETA},net-diet,lto,tinification,staging;name=machine,meta,net-diet,lto,tinification,staging"
 
@@ -123,8 +125,11 @@ KERNEL_FEATURES_NONET = "cfg/net-disable.scc"
 #                                   "
 
 # non-micro with tracing
-#KERNEL_FEATURES_append_galileo += "${KERNEL_FEATURES_TRACING} \
-#                                   "
+KERNEL_FEATURES_append_galileo += "${KERNEL_FEATURES_TRACING} \
+								    \
+cfg/fs/ext3.scc  cfg/fs/ext4.scc cfg/fs/vfat.scc features/systemtap/systemtap.scc \
+features/iwlwifi/iwlwifi.scc features/usb/usb-base.scc cfg/usb-mass-storage.scc	\
+                                   "
 
 # Smallest 'normal' kernel i.e. can be used to scp new kernel to sd card
 # and see dmesg, oops, etc.  Cuts past this affect *something* important.
@@ -163,8 +168,8 @@ KERNEL_FEATURES_SMALLEST_NORMAL = "${KERNEL_FEATURES_LTO} \
                         cfg/pcie-disable.scc \
                         "
 
-KERNEL_FEATURES_append_galileo += "${KERNEL_FEATURES_SMALLEST_NORMAL} \
-                        "
+#KERNEL_FEATURES_append_galileo += "${KERNEL_FEATURES_SMALLEST_NORMAL} \
+#                        "
 
 # valuable features but broken and need fixing:
 # - multiuser - saves about 15k but needs userspace fixes, can't log in
